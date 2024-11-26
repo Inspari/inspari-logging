@@ -9,8 +9,8 @@ trigger:
       - test/** 
       - azure-pipelines-test.yml
 
- variables:
-   - group: INSPARI # Variable group containing GIT_TOKEN secret
+variables:
+  - group: INSPARI # Variable group containing GIT_TOKEN secret
 
 jobs:
 - job: 'Test'

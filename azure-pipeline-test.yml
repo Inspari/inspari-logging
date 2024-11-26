@@ -16,6 +16,7 @@ trigger:
 #   - name: tag
 #     value: "$(Build.BuildId)" # Keep your existing tag variable
 
+jobs:
 - job: 'Test'
   pool:
     vmImage: 'Ubuntu-24.04'
@@ -33,7 +34,6 @@ trigger:
       architecture: 'x64'
   - script: |
       pipx install poetry
-#      poetry config http-basic.inspari-genai inspari-genai $(INSPARI_GENAI_PAT_TOKEN)
       poetry install --no-root
     displayName: 'Install dependencies'
   - script: |

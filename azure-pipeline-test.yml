@@ -34,7 +34,7 @@ jobs:
       architecture: 'x64'
   - script: |
       pipx install poetry
-      poetry install --no-root
+      poetry install -E azure --no-root
     displayName: 'Install dependencies'
   - script: |
       pip install pytest-azurepipelines

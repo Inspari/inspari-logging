@@ -27,7 +27,9 @@ jobs:
       versionSpec: '$(python.version)'
       architecture: 'x64'
   - script: |
-      export POETRY_HTTP_BASIC_INSPARI_CONFIG_USERNAME=$(INSPARI_CONFIG_PAT_TOKEN)
+      export POETRY_HTTP_BASIC_INSPARI_CONFIG_USERNAME=emer
+      export POETRY_HTTP_BASIC_INSPARI_CONFIG_PASSWORD=$(INSPARI_CONFIG_PAT_TOKEN)
+      echo $(INSPARI_CONFIG_PAT_TOKEN)
       pipx install poetry
       poetry install -E azure --no-root
     displayName: 'Install dependencies'

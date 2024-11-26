@@ -37,10 +37,14 @@ jobs:
   - script: |
       pip install pytest-azurepipelines
       poetry run coverage run -m pytest --junitxml=results.xml
+      poetry run coverage xml -o coverage.xml
     displayName: 'Run Unit Tests with pytest'
   - task: PublishTestResults@2
     inputs:
       testResultsFiles: '**/results.xml'
       testRunTitle: 'Python $(python.version)'
-    condition: succeededOrFailed()
-
+      condition: succeededOrFailed()
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '**/coverage.xml'

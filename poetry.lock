@@ -15,7 +15,7 @@ files = [
 name = "azure-core"
 version = "1.32.0"
 description = "Microsoft Azure Core Library for Python"
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "azure_core-1.32.0-py3-none-any.whl", hash = "sha256:eac191a0efb23bfa83fddf321b27b122b4ec847befa3091fa736a5c32c50d7b4"},
@@ -34,7 +34,7 @@ aio = ["aiohttp (>=3.0)"]
 name = "azure-identity"
 version = "1.19.0"
 description = "Microsoft Azure Identity Library for Python"
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "azure_identity-1.19.0-py3-none-any.whl", hash = "sha256:e3f6558c181692d7509f09de10cca527c7dce426776454fb97df512a46527e81"},
@@ -47,6 +47,71 @@ cryptography = ">=2.5"
 msal = ">=1.30.0"
 msal-extensions = ">=1.2.0"
 typing-extensions = ">=4.0.0"
+
+[[package]]
+name = "azure-keyvault"
+version = "4.2.0"
+description = "Microsoft Azure Key Vault Client Libraries for Python"
+optional = false
+python-versions = "*"
+files = [
+    {file = "azure-keyvault-4.2.0.zip", hash = "sha256:731add108a3e29ab4fd501a3c477256c286c34d0996b383fb6a3945462933761"},
+    {file = "azure_keyvault-4.2.0-py2.py3-none-any.whl", hash = "sha256:16b29039244cbe8b940c98a0d795626d76d2a579cb9b8c559983ad208082c0de"},
+]
+
+[package.dependencies]
+azure-keyvault-certificates = ">=4.4,<5.0"
+azure-keyvault-keys = ">=4.5,<5.0"
+azure-keyvault-secrets = ">=4.4,<5.0"
+
+[[package]]
+name = "azure-keyvault-certificates"
+version = "4.9.0"
+description = "Microsoft Azure Key Vault Certificates Client Library for Python"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "azure_keyvault_certificates-4.9.0-py3-none-any.whl", hash = "sha256:f1610a9228ce28c8a30ce04b54ee25c3838de13fd5d252effe0dad7fd561980f"},
+    {file = "azure_keyvault_certificates-4.9.0.tar.gz", hash = "sha256:9dd04f8ffe4091588282eb75480bb31e584dd9940d09f9dea67fac8363e97e59"},
+]
+
+[package.dependencies]
+azure-core = ">=1.31.0"
+isodate = ">=0.6.1"
+typing-extensions = ">=4.0.1"
+
+[[package]]
+name = "azure-keyvault-keys"
+version = "4.10.0"
+description = "Microsoft Azure Key Vault Keys Client Library for Python"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "azure_keyvault_keys-4.10.0-py3-none-any.whl", hash = "sha256:210227e0061f641a79755f0e0bcbcf27bbfb4df630a933c43a99a29962283d0d"},
+    {file = "azure_keyvault_keys-4.10.0.tar.gz", hash = "sha256:511206ae90aec1726a4d6ff5a92d754bd0c0f1e8751891368d30fb70b62955f1"},
+]
+
+[package.dependencies]
+azure-core = ">=1.31.0"
+cryptography = ">=2.1.4"
+isodate = ">=0.6.1"
+typing-extensions = ">=4.0.1"
+
+[[package]]
+name = "azure-keyvault-secrets"
+version = "4.9.0"
+description = "Microsoft Azure Key Vault Secrets Client Library for Python"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "azure_keyvault_secrets-4.9.0-py3-none-any.whl", hash = "sha256:33c7e2aca2cc2092cebc8c6e96eca36a5cc30c767e16ea429c5fa21270e9fba6"},
+    {file = "azure_keyvault_secrets-4.9.0.tar.gz", hash = "sha256:2a03bb2ffd9a0d6c8ad1c330d9d0310113985a9de06607ece378fd72a5889fe1"},
+]
+
+[package.dependencies]
+azure-core = ">=1.31.0"
+isodate = ">=0.6.1"
+typing-extensions = ">=4.0.1"
 
 [[package]]
 name = "azure-storage-blob"
@@ -72,7 +137,7 @@ aio = ["azure-core[aio] (>=1.30.0)"]
 name = "certifi"
 version = "2024.8.30"
 description = "Python package for providing Mozilla's CA Bundle."
-optional = true
+optional = false
 python-versions = ">=3.6"
 files = [
     {file = "certifi-2024.8.30-py3-none-any.whl", hash = "sha256:922820b53db7a7257ffbda3f597266d435245903d80737e34f8a45ff3e3230d8"},
@@ -83,7 +148,7 @@ files = [
 name = "cffi"
 version = "1.17.1"
 description = "Foreign Function Interface for Python calling C code."
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "cffi-1.17.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:df8b1c11f177bc2313ec4b2d46baec87a5f3e71fc8b45dab2ee7cae86d9aba14"},
@@ -162,7 +227,7 @@ pycparser = "*"
 name = "charset-normalizer"
 version = "3.4.0"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
-optional = true
+optional = false
 python-versions = ">=3.7.0"
 files = [
     {file = "charset_normalizer-3.4.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:4f9fc98dad6c2eaa32fc3af1417d95b5e3d08aff968df0cd320066def971f9a6"},
@@ -375,7 +440,7 @@ toml = ["tomli"]
 name = "cryptography"
 version = "43.0.3"
 description = "cryptography is a package which provides cryptographic recipes and primitives to Python developers."
-optional = true
+optional = false
 python-versions = ">=3.7"
 files = [
     {file = "cryptography-43.0.3-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:bf7a1932ac4176486eab36a19ed4c0492da5d97123f1406cf15e41b05e787d2e"},
@@ -424,7 +489,7 @@ test-randomorder = ["pytest-randomly"]
 name = "idna"
 version = "3.10"
 description = "Internationalized Domain Names in Applications (IDNA)"
-optional = true
+optional = false
 python-versions = ">=3.6"
 files = [
     {file = "idna-3.10-py3-none-any.whl", hash = "sha256:946d195a0d259cbba61165e88e65941f16e9b36ea6ddb97f00452bae8b1287d3"},
@@ -446,10 +511,30 @@ files = [
 ]
 
 [[package]]
+name = "inspari-config"
+version = "0.1.0"
+description = "Inspari configuration utilities"
+optional = false
+python-versions = "^3.13"
+files = []
+develop = false
+
+[package.dependencies]
+azure-identity = "^1.19.0"
+azure-keyvault = "^4.2.0"
+python-dotenv = "^1.0.1"
+
+[package.source]
+type = "git"
+url = "https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config"
+reference = "v0.1.0"
+resolved_reference = "f2fa28e24f59dc4f7f3ca65d4008202d627d7734"
+
+[[package]]
 name = "isodate"
 version = "0.7.2"
 description = "An ISO 8601 date/time/duration parser and formatter"
-optional = true
+optional = false
 python-versions = ">=3.7"
 files = [
     {file = "isodate-0.7.2-py3-none-any.whl", hash = "sha256:28009937d8031054830160fce6d409ed342816b543597cece116d966c6d99e15"},
@@ -495,7 +580,7 @@ files = [
 name = "msal"
 version = "1.31.1"
 description = "The Microsoft Authentication Library (MSAL) for Python library enables your app to access the Microsoft Cloud by supporting authentication of users with Microsoft Azure Active Directory accounts (AAD) and Microsoft Accounts (MSA) using industry standard OAuth2 and OpenID Connect."
-optional = true
+optional = false
 python-versions = ">=3.7"
 files = [
     {file = "msal-1.31.1-py3-none-any.whl", hash = "sha256:29d9882de247e96db01386496d59f29035e5e841bcac892e6d7bf4390bf6bd17"},
@@ -514,7 +599,7 @@ broker = ["pymsalruntime (>=0.14,<0.18)", "pymsalruntime (>=0.17,<0.18)"]
 name = "msal-extensions"
 version = "1.2.0"
 description = "Microsoft Authentication Library extensions (MSAL EX) provides a persistence API that can save your data on disk, encrypted on Windows, macOS and Linux. Concurrent data access will be coordinated by a file lock mechanism."
-optional = true
+optional = false
 python-versions = ">=3.7"
 files = [
     {file = "msal_extensions-1.2.0-py3-none-any.whl", hash = "sha256:cf5ba83a2113fa6dc011a254a72f1c223c88d7dfad74cc30617c4679a417704d"},
@@ -555,7 +640,7 @@ testing = ["pytest", "pytest-benchmark"]
 name = "portalocker"
 version = "2.10.1"
 description = "Wraps the portalocker recipe for easy usage"
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "portalocker-2.10.1-py3-none-any.whl", hash = "sha256:53a5984ebc86a025552264b459b46a2086e269b21823cb572f8f28ee759e45bf"},
@@ -574,7 +659,7 @@ tests = ["pytest (>=5.4.1)", "pytest-cov (>=2.8.1)", "pytest-mypy (>=0.8.0)", "p
 name = "pycparser"
 version = "2.22"
 description = "C parser in Python"
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "pycparser-2.22-py3-none-any.whl", hash = "sha256:c3702b6d3dd8c7abc1afa565d7e63d53a1d0bd86cdc24edd75470f4de499cfcc"},
@@ -583,13 +668,13 @@ files = [
 
 [[package]]
 name = "pydantic"
-version = "2.10.1"
+version = "2.10.2"
 description = "Data validation using Python type hints"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pydantic-2.10.1-py3-none-any.whl", hash = "sha256:a8d20db84de64cf4a7d59e899c2caf0fe9d660c7cfc482528e7020d7dd189a7e"},
-    {file = "pydantic-2.10.1.tar.gz", hash = "sha256:a4daca2dc0aa429555e0656d6bf94873a7dc5f54ee42b1f5873d666fb3f35560"},
+    {file = "pydantic-2.10.2-py3-none-any.whl", hash = "sha256:cfb96e45951117c3024e6b67b25cdc33a3cb7b2fa62e239f7af1378358a1d99e"},
+    {file = "pydantic-2.10.2.tar.gz", hash = "sha256:2bc2d7f17232e0841cbba4641e65ba1eb6fafb3a08de3a091ff3ce14a197c4fa"},
 ]
 
 [package.dependencies]
@@ -731,7 +816,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 name = "pyjwt"
 version = "2.10.0"
 description = "JSON Web Token implementation in Python"
-optional = true
+optional = false
 python-versions = ">=3.9"
 files = [
     {file = "PyJWT-2.10.0-py3-none-any.whl", hash = "sha256:543b77207db656de204372350926bed5a86201c4cbff159f623f79c7bb487a15"},
@@ -786,6 +871,20 @@ pytest = ">=4.6"
 testing = ["fields", "hunter", "process-tests", "pytest-xdist", "virtualenv"]
 
 [[package]]
+name = "python-dotenv"
+version = "1.0.1"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "python-dotenv-1.0.1.tar.gz", hash = "sha256:e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca"},
+    {file = "python_dotenv-1.0.1-py3-none-any.whl", hash = "sha256:f7b63ef50f1b690dddf550d03497b66d609393b40b564ed0d674909a68ebf16a"},
+]
+
+[package.extras]
+cli = ["click (>=5.0)"]
+
+[[package]]
 name = "python-json-logger"
 version = "3.1.0"
 description = "JSON Log Formatter for the Python Logging Package"
@@ -810,7 +909,7 @@ resolved_reference = "e2b40e420f4181fd921b01a2fd0b23ca82b5fc9b"
 name = "pywin32"
 version = "308"
 description = "Python for Window Extensions"
-optional = true
+optional = false
 python-versions = "*"
 files = [
     {file = "pywin32-308-cp310-cp310-win32.whl", hash = "sha256:796ff4426437896550d2981b9c2ac0ffd75238ad9ea2d3bfa67a1abd546d262e"},
@@ -837,7 +936,7 @@ files = [
 name = "requests"
 version = "2.32.3"
 description = "Python HTTP for Humans."
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "requests-2.32.3-py3-none-any.whl", hash = "sha256:70761cfe03c773ceb22aa2f671b4757976145175cdfca038c02654d061d6dcc6"},
@@ -887,7 +986,7 @@ files = [
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
-optional = true
+optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 files = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
@@ -926,7 +1025,7 @@ files = [
 name = "urllib3"
 version = "2.2.3"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "urllib3-2.2.3-py3-none-any.whl", hash = "sha256:ca899ca043dcb1bafa3e262d73aa25c465bfb49e0bd9dd5d59f1d0acba2f8fac"},
@@ -945,4 +1044,4 @@ azure = ["azure-identity", "azure-storage-blob"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "024df9c00af7257463a78435a6f5c79e464cfc8c40fe436e980ff7a193f9fbb4"
+content-hash = "ba499aabb2abe75fccf71e2558874c326c68b6b28abd7e0630ffcb1d1d025c8a"

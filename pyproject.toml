@@ -14,8 +14,9 @@ python-json-logger = { git = "https://github.com/nhairs/python-json-logger.git",
 colorama = "^0.4.6"
 pydantic = "^2.10.1"
 typer = "^0.13.1"
-azure-storage-blob = {version="^12.24.0", optional= true}
 azure-identity = {version="^1.19.0", optional= true} 
+azure-storage-blob = {version="^12.24.0", optional= true} 
+inspari-config = { git = "https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config", tag = "v0.1.0" }
 
 [tool.poetry.extras]
 azure = ["azure-storage-blob", "azure-identity"]

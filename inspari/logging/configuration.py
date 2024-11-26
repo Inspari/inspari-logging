@@ -8,13 +8,6 @@ from colorama import init as colorama_init
 
 from inspari.logging.utils import _resolve_environment, _logging_extras, _logging_prefix
 
-# TODO: ADD This one
-# from inspari_genai_core.config import load_dotenv
-
-
-def load_dotenv(*args, **kwargs):
-    pass
-
 
 """
 The configuration module hols generic logging configuration utilities.

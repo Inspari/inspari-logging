@@ -1,0 +1,53 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - inspari/logging/**
+      - test/** 
+      - azure-pipelines-test.yml
+
+# variables:
+#   - name: System.DisableAutomaticSecretsDetection
+#     value: true
+#   - group: genai # Variable group containing GIT_TOKEN secret
+#   - name: tag
+#     value: "$(Build.BuildId)" # Keep your existing tag variable
+
+- job: 'Test'
+  pool:
+    vmImage: 'Ubuntu-24.04'
+  strategy:
+    matrix:
+      Python39:
+        python.version: '3.9'
+      Python313:
+        python.version: '3.13'
+    maxParallel: 2
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+      architecture: 'x64'
+  - script: |
+      pipx install poetry
+#      poetry config http-basic.inspari-genai inspari-genai $(INSPARI_GENAI_PAT_TOKEN)
+      poetry install --no-root
+    displayName: 'Install dependencies'
+  - script: |
+      pip install pytest-azurepipelines
+      poetry run coverage run -m pytest --junitxml=results.xml
+    displayName: 'Run Unit Tests with pytest'
+
+  # - script: |
+  #     pip install nose2
+  #     nose2 --plugin nose2.plugins.junitxml --junit-xml tests
+  #   displayName: 'Run tests'
+
+  # - task: PublishTestResults@2
+  #   inputs:
+  #     testResultsFiles: '**/nose2-junit.xml'
+  #     testRunTitle: 'Python $(python.version)'
+  #   condition: succeededOrFailed()
+

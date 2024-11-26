@@ -22,8 +22,6 @@ jobs:
     vmImage: 'Ubuntu-24.04'
   strategy:
     matrix:
-      Python39:
-        python.version: '3.9'
       Python313:
         python.version: '3.13'
     maxParallel: 2
@@ -40,15 +38,9 @@ jobs:
       pip install pytest-azurepipelines
       poetry run coverage run -m pytest --junitxml=results.xml
     displayName: 'Run Unit Tests with pytest'
-
-  # - script: |
-  #     pip install nose2
-  #     nose2 --plugin nose2.plugins.junitxml --junit-xml tests
-  #   displayName: 'Run tests'
-
-  # - task: PublishTestResults@2
-  #   inputs:
-  #     testResultsFiles: '**/nose2-junit.xml'
-  #     testRunTitle: 'Python $(python.version)'
-  #   condition: succeededOrFailed()
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '**/results.xml'
+      testRunTitle: 'Python $(python.version)'
+    condition: succeededOrFailed()
 

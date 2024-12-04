@@ -6,7 +6,7 @@ import os
 from colorama import Fore, Style
 from colorama import init as colorama_init
 
-from inspari.logging.utils import _resolve_environment, _logging_extras, _logging_prefix
+from .utils import _resolve_environment, _logging_extras, _logging_prefix
 
 
 """

@@ -29,6 +29,7 @@ jobs:
   - script: |
       echo $(INSPARI_CONFIG_PAT_TOKEN)
       pipx install poetry
+      echo git config --global url."https://emer:$(INSPARI_CONFIG_PAT_TOKEN)Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config".insteadOf "git@ssh.dev.azure.com:v3/Inspari-Accelerators/Accelerators/inspari-config"
       git config --global url."https://emer:$(INSPARI_CONFIG_PAT_TOKEN)Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config".insteadOf "git@ssh.dev.azure.com:v3/Inspari-Accelerators/Accelerators/inspari-config"
       poetry install -E azure --no-root
     displayName: 'Install dependencies'

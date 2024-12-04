@@ -30,7 +30,7 @@ jobs:
       architecture: 'x64'
   - script: |
       curl -sSL https://install.python-poetry.org | python3 -
-      git config url."https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config".insteadOf git@ssh.dev.azure.com:v3/Inspari-Accelerators/Accelerators/inspari-config
+      git config --global url."https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config".insteadOf git@ssh.dev.azure.com:v3/Inspari-Accelerators/Accelerators/inspari-config
       poetry run git clone git@ssh.dev.azure.com:v3/Inspari-Accelerators/Accelerators/inspari-config
       cat ~/.gitconfig
       poetry config repositories.inspari-config https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config

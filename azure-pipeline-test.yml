@@ -32,10 +32,6 @@ jobs:
       curl -sSL https://install.python-poetry.org | python3 -
       poetry config repositories.inspari-config https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config
       poetry config http-basic.inspari-config $(INSPARI_CONFIG_PAT_USERNAME) $(INSPARI_CONFIG_PAT_TOKEN)
-      poetry env use python3
-      git config --global url."https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config".insteadOf git@ssh.dev.azure.com:v3/Inspari-Accelerators/Accelerators/inspari-config
-      poetry install -E azure
-      git config --global url."https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config".insteadOf git@ssh.dev.azure.com:v3/Inspari-Accelerators/Accelerators/inspari-config
       poetry install -E azure
     displayName: 'Install dependencies'
   - script: |

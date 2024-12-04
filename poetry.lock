@@ -526,7 +526,7 @@ python-dotenv = "^1.0.1"
 
 [package.source]
 type = "git"
-url = "git@ssh.dev.azure.com:v3/Inspari-Accelerators/Accelerators/inspari-config"
+url = "https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config"
 reference = "v0.1.0"
 resolved_reference = "f2fa28e24f59dc4f7f3ca65d4008202d627d7734"
 
@@ -1044,4 +1044,4 @@ azure = ["azure-identity", "azure-storage-blob"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "23a0e7a4d81e3e8bee66bd1f409741bbf9f32f39b0fffbee4bb9cbf17fd742ed"
+content-hash = "ba499aabb2abe75fccf71e2558874c326c68b6b28abd7e0630ffcb1d1d025c8a"

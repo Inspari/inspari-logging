@@ -8,6 +8,8 @@ trigger:
       - inspari/logging/**
       - test/** 
       - azure-pipelines-test.yml
+      - pyproject.toml
+      - poetry.lock
 
 variables:
 - group: INSPARI # Variable group containing GIT_TOKEN secret

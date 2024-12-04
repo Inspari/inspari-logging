@@ -29,9 +29,9 @@ jobs:
       versionSpec: '$(python.version)'
       architecture: 'x64'
   - script: |
-      echo $(INSPARI_CONFIG_PAT_TOKEN)
       pipx install poetry
       git config --global url."https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config".insteadOf git@ssh.dev.azure.com:v3/Inspari-Accelerators/Accelerators/inspari-config
+      cat ~/.gitconfig
       poetry config repositories.inspari-config https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config
       poetry config http-basic.inspari-config $(INSPARI_CONFIG_PAT_USERNAME) $(INSPARI_CONFIG_PAT_TOKEN)
       poetry install -E azure --no-root

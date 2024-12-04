@@ -7,7 +7,7 @@ trigger:
     include:
       - inspari/logging/**
       - test/** 
-      - azure-pipelines-test.yml
+      - azure-pipeline-test.yml
       - pyproject.toml
       - poetry.lock
 

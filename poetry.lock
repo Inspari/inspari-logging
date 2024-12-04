@@ -524,13 +524,14 @@ develop = false
 [package.dependencies]
 azure-identity = "^1.19.0"
 azure-keyvault = "^4.2.0"
+pydantic-settings = "^2.6.1"
 python-dotenv = "^1.0.1"
 
 [package.source]
 type = "git"
 url = "https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config"
-reference = "v0.1.0"
-resolved_reference = "f2fa28e24f59dc4f7f3ca65d4008202d627d7734"
+reference = "v0.1.1"
+resolved_reference = "3132314cedab3e72d9d5b74b1a4795e2077234ff"
 
 [[package]]
 name = "isodate"
@@ -801,6 +802,26 @@ files = [
 typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 
 [[package]]
+name = "pydantic-settings"
+version = "2.6.1"
+description = "Settings management using Pydantic"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pydantic_settings-2.6.1-py3-none-any.whl", hash = "sha256:7fb0637c786a558d3103436278a7c4f1cfd29ba8973238a50c5bb9a55387da87"},
+    {file = "pydantic_settings-2.6.1.tar.gz", hash = "sha256:e0f92546d8a9923cb8941689abf85d6601a8c19a23e97a34b2964a2e3f813ca0"},
+]
+
+[package.dependencies]
+pydantic = ">=2.7.0"
+python-dotenv = ">=0.21.0"
+
+[package.extras]
+azure-key-vault = ["azure-identity (>=1.16.0)", "azure-keyvault-secrets (>=4.8.0)"]
+toml = ["tomli (>=2.0.1)"]
+yaml = ["pyyaml (>=6.0.1)"]
+
+[[package]]
 name = "pygments"
 version = "2.18.0"
 description = "Pygments is a syntax highlighting package written in Python."
@@ -1046,4 +1067,4 @@ azure = ["azure-identity", "azure-storage-blob"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "ba499aabb2abe75fccf71e2558874c326c68b6b28abd7e0630ffcb1d1d025c8a"
+content-hash = "24dff7327a0037ecb972305ef702909f7616f52cf0cbbd70406c212614691230"

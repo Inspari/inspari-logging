@@ -19,12 +19,7 @@ from inspari.logging.utils import _resolve_environment, _logging_extras, _loggin
 from inspari.logging.utils import (
     _logging_suffix,
 )
-# TODO: ADD This one
-# from inspari_genai_core.config import load_dotenv
-
-
-def load_dotenv(*args, **kwargs):
-    pass
+from inspari.config import load_dotenv
 
 
 """

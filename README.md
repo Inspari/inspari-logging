@@ -1,14 +1,57 @@
 This repository provides Python logging utilities.
 
+### Installation
+
+
+You will need an access token for:
+
+```
+https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators
+```
+
+
+#### Poetry
+
+
+
+To install for development purposes, clone the repository and run,
+
+```bash
+poetry install --all-extras
+```
+where the all-extras flag installs azure dependencies that are optional.
+
+
+To install the package from a different project, add the following to your `pyproject.toml` file,
+
+```toml
+[tool.poetry.dependencies]
+inspari-logging = { git = "https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-logging", tag = "<version tag>" }
+```
+where `<version tag>` is the desired git version tag. You can also point directly to a commit or a branch.
+
+To also add the azure dependencies, add the following to your `pyproject.toml` file,
+```toml
+[tool.poetry.dependencies]
+inspari-logging = { git = "https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-logging", tag = "<version tag>", extras = ["azure"] }
+```
+
+
+    
+
+
 ### Configuration
 
-The `inspari.logging` module provides unified interface for loading logging configuration files in app code and from gunicorn. In addition, a range of utilities (service name prefixing, command line colors etc.) are provided. 
+The `inspari.logging` module provides unified interface for loading logging configuration files in app code and from 
+gunicorn. In addition, a range of utilities (service name prefixing, command line colors etc.) are provided. 
 
-An example logging configuration file is bundled (`example_logging_config.json`), along with an example of the usage in an application context (`example_usage.py`).
+An example logging configuration file is bundled (`example_logging_config.json`), along with an example of the usage in 
+an application context (`example_usage.py`).
 
 ### Stream logs
 
-The streamlogs command line utility provides a simple way to steam logs in _realtime_. To enable log collection, add a handler as part of your logging configuration,
+The streamlogs command line utility provides a simple way to stream logs in _realtime_. To enable log collection, add a 
+handler as part of your logging configuration,
 
 ```json
     "handlers": {
@@ -31,13 +74,16 @@ The streamlogs command line utility provides a simple way to steam logs in _real
     },
 ```
 
-and configure the logs as demonstrated in `example_usage.py`. The storage account to use for streaming must be specified via environment variables. In the example case, a connection string is used. Hence, for local development purposes, it is recommended to create a .env file with the content like,
+and configure the logs as demonstrated in `example_usage.py`. The storage account to use for streaming must be specified
+via environment variables. In the example case, a connection string is used. Hence, for local development purposes, 
+it is recommended to create a .env file with the content like,
 
 ```bash
 ABS_CONNECTION_STRING=REDACTED
 ```
 
-Note that by default, logs are written to container called `logs`, so you must create a container with this name, if it doesn't already exist. If you now run,
+Note that by default, logs are written to container called `logs`, so you must create a container with this name,
+if it doesn't already exist. If you now run,
 
 ```bash
 poetry run steamlogs

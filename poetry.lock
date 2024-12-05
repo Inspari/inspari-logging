@@ -530,8 +530,8 @@ python-dotenv = "^1.0.1"
 [package.source]
 type = "git"
 url = "https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config"
-reference = "dependency_improvements"
-resolved_reference = "9f7db7f296df90ef87d9ff3ea910b0653ca6cbc6"
+reference = "v0.1.2"
+resolved_reference = "2a3ccabb92d3fe273f7f5689835c484a764443bb"
 
 [[package]]
 name = "isodate"
@@ -1067,4 +1067,4 @@ azure = ["azure-identity", "azure-storage-blob"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "df409b7a39ea236fbed5c49cc094ae1d9b761319ce6203a16306f7b201d85582"
+content-hash = "69b50b265b3b44a56f89201c78b7d08080997bc984a034bd1d16935a0f35c964"

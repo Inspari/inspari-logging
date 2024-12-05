@@ -2,19 +2,42 @@ This repository provides Python logging utilities.
 
 ### Installation
 
-#### Poetry
-
-To install the package, add the following to your `pyproject.toml` file,
-
 ```toml
-[tool.poetry.dependencies]
-inspari-logging = { git = "git@ssh.dev.azure.com:v3/Inspari-Accelerators/Accelerators/inspari-logging" }
-```
 
 You will need an access token for:
 ```
 https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators
 ```
+
+
+#### Poetry
+
+
+
+To install for development purposes, clone the repository and run,
+
+```bash
+poetry install --all-extras
+```
+where the all-extras flag installs azure dependencies that are optional.
+
+
+To install the package from a different project, add the following to your `pyproject.toml` file,
+
+```toml
+[tool.poetry.dependencies]
+inspari-logging = { git = "https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-logging", tag = "<version tag>" }
+```
+where `<version tag>` is the desired git version tag. You can also point directly to a commit or a branch.
+
+To also add the azure dependencies, add the following to your `pyproject.toml` file,
+```toml
+[tool.poetry.dependencies]
+inspari-logging = { git = "https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-logging", tag = "<version tag>", extras = ["azure"] }
+```
+
+
+    
 
 
 ### Configuration

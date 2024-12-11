@@ -1,45 +1,5 @@
 This repository provides Python logging utilities.
 
-### Installation
-
-
-You will need an access token for:
-
-```
-https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators
-```
-
-
-#### Poetry
-
-
-
-To install for development purposes, clone the repository and run,
-
-```bash
-poetry install --all-extras
-```
-where the all-extras flag installs azure dependencies that are optional.
-
-
-To install the package from a different project, add the following to your `pyproject.toml` file,
-
-```toml
-[tool.poetry.dependencies]
-inspari-logging = { git = "https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-logging", tag = "<version tag>" }
-```
-where `<version tag>` is the desired git version tag. You can also point directly to a commit or a branch.
-
-To also add the azure dependencies, add the following to your `pyproject.toml` file,
-```toml
-[tool.poetry.dependencies]
-inspari-logging = { git = "https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-logging", tag = "<version tag>", extras = ["azure"] }
-```
-
-
-    
-
-
 ### Configuration
 
 The `inspari.logging` module provides unified interface for loading logging configuration files in app code and from 
@@ -90,3 +50,31 @@ poetry run steamlogs
 ```
 
 you should be getting logs in (near) realtime from all services connected to the account.
+
+### Development
+
+Create a new Python environment with all dependencies installed,
+
+```bash
+poetry install
+```
+
+That's it! You can validate that the environment is setup correctly by running the tests,
+
+```bash
+poetry run coverage run -m pytest
+```
+
+### Deployment
+
+Update the version in `pyproject.toml`, and add a new entry in `CHANGELOG.md`. Build the project via Poetry,
+
+```bash
+poetry build
+```
+
+and push it to pypi,
+
+```bash
+poetry publish -u __token__ -p $INSPARI_PYPI_TOKEN
+```

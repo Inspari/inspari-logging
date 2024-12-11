@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "inspari_logging"
-version = "0.1.2rc1"
+version = "0.1.2"
 description = "Inspari logging utilities"
 authors = ["emilhe <emil.h.eriksen@gmail.com>"]
 readme = "README.md"

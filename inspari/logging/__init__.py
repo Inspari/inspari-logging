@@ -4,3 +4,4 @@ from inspari.logging.configuration import (
     configure_logging_default,
 )
 from inspari.logging.streamlogs import AzureBlobStorageHandler
+from inspari.logging.pythonjsonlogger.json import JsonFormatter

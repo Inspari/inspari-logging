@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.4] - 07-01-25
+
+### Added
+
+- Added GitHub sync pipeline step
+
 ## [0.1.1] - 11-12-24
 
 ### Added

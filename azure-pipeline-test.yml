@@ -32,7 +32,7 @@ jobs:
       curl -sSL https://install.python-poetry.org | python3 -
       poetry config repositories.inspari-config https://Inspari-Accelerators@dev.azure.com/Inspari-Accelerators/Accelerators/_git/inspari-config
       poetry config http-basic.inspari-config $(INSPARI_CONFIG_PAT_USERNAME) $(INSPARI_CONFIG_PAT_TOKEN)
-      poetry install -E azure
+      poetry install
     displayName: 'Install dependencies'
   - script: |
       pip install pytest-azurepipelines

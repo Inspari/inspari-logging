@@ -176,6 +176,8 @@ class AzureBlobStorageHandler(logging.Handler):
         if local and not _parse_bool(log_local):
             logger.debug("Not logging to Azure Blob Storage as environment is local.")
             return None
+        # If we are local, we do NOT want to authenticate with a managed identity, so we skip the client_id.
+        client_id = None if local else _resolve_parameter(client_id, client_id_env_key)
         # Setup credential.
         credential = DefaultAzureCredential(
             managed_identity_client_id=client_id,
@@ -186,8 +188,6 @@ class AzureBlobStorageHandler(logging.Handler):
             load_dotenv(credential=credential)
         # Resolve parameters.
         account_name = _resolve_parameter(account_name, account_name_env_key)
-        # If we are local, we do NOT want to authenticate with a managed identity, so we skip the client_id.
-        client_id = None if local else _resolve_parameter(client_id, client_id_env_key)
         # Setup client.
         client = _get_blob_client(
             credential, conn_str, container, blob, env_key, account_name
@@ -236,14 +236,19 @@ def stream_logs(
         description="The client ID for the managed identity. Not needed if using regular az cli login.",
     ),
     delay: int = 1,
+    exclude_environment_credentials: bool = False,
 ):
     """
     Stream logs to terminal from the specified blob.
     """
     account_name = _resolve_parameter(account_name, account_name_env_key)
     client_id = _resolve_parameter(client_id, client_id_env_key)
+    credential = DefaultAzureCredential(
+        managed_identity_client_id=client_id,
+        exclude_environment_credential=_parse_bool(exclude_environment_credentials),
+    )
     client = _get_blob_client(
-        conn_str, container, blob, env_key, account_name, client_id=client_id
+        credential, conn_str, container, blob, env_key, account_name
     )
     assert client is not None
     offset = 0

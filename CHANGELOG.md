@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.6] - 04-02-25
+
+### Changed
+
+- Pass through credentials to config
+
 ## [0.1.5] - 04-02-25
 
 ### Fixed

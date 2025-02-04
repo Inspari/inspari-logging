@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed color not found warning when running in Linux based system
+- Make Azure deps mandatory since they were effectively mandatory anyway
 
 ## [0.1.4] - 07-01-25
 

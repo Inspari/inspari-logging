@@ -2,6 +2,7 @@ import json
 import logging
 import logging.config
 import os
+import platform
 
 from colorama import Fore, Style
 from colorama import init as colorama_init
@@ -16,7 +17,8 @@ The configuration module hols generic logging configuration utilities.
 
 colorama_init()
 
-os.system("color")  # requires for colors to work in Windows
+if platform.system() == "Windows":
+    os.system("color")  # required for colors to work in Windows
 logger = logging.getLogger(__name__)
 
 

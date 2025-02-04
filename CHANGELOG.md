@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 
 - Fixed color not found warning when running in Linux based system
 - Make Azure deps mandatory since they were effectively mandatory anyway
+- Add improved error handling to avoid gunicorn crashes
+- Add support for multiple env values (comma separated)
+- Add `exclude_environment_credentials` flag
 
 ## [0.1.4] - 07-01-25
 

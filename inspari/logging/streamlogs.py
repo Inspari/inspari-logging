@@ -1,26 +1,24 @@
 import logging
 import logging.config
 import os
+import time
+import traceback
 from datetime import UTC, datetime
 from typing import Optional
 
-from azure.core.exceptions import ResourceNotFoundError
-from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobClient, ContentSettings, BlobServiceClient
-import logging
-import logging.config
-import time
-
-from pydantic import Field
 import typer
-from azure.core.exceptions import HttpResponseError
+from azure.core.exceptions import HttpResponseError, ResourceNotFoundError
+from azure.identity import DefaultAzureCredential
+from azure.storage.blob import BlobClient, BlobServiceClient, ContentSettings
+from pydantic import Field
 
-from inspari.logging.utils import _resolve_environment, _logging_extras, _logging_prefix
-from inspari.logging.utils import (
-    _logging_suffix,
-)
 from inspari.config import load_dotenv
-
+from inspari.logging.utils import (
+    _logging_extras,
+    _logging_prefix,
+    _logging_suffix,
+    _resolve_environment,
+)
 
 """
 The steaming logs module is used to stream logs from an Azure Blob Storage container to the terminal.
@@ -45,7 +43,6 @@ def _resolve_conn_str(
 ) -> str | None:
     if conn_str is not None:
         return conn_str
-    logger.info("Connection string not set. Trying to load from env.")
     # If key is provided, use it.
     if env_key is not None:
         conn_str = os.getenv(env_key, None)
@@ -59,9 +56,6 @@ def _resolve_conn_str(
         conn_str = os.getenv(key, None)
         if conn_str is not None:
             return conn_str
-    logger.error(
-        f"Failed to load connection string from defaults [{','.join(_default_conn_str_keys)}]."
-    )
     return None
 
 
@@ -72,6 +66,7 @@ def _get_blob_client(
     env_key: Optional[str] = None,
     account_name: Optional[str] = None,
     client_id: Optional[str] = None,
+    exclude_environment_credentials: bool = False,
 ) -> BlobClient:
     # If container is not set, default to "logs" container.
     container = container if container is not None else "logs"
@@ -79,7 +74,10 @@ def _get_blob_client(
 
     if account_name is not None:
         account_url = f"https://{account_name}.blob.core.windows.net"
-        credential = DefaultAzureCredential(managed_identity_client_id=client_id)
+        credential = DefaultAzureCredential(
+            managed_identity_client_id=client_id,
+            exclude_environment_credential=exclude_environment_credentials,
+        )
         if blob is None:
             # List blobs in the container.
             blobs = (
@@ -120,7 +118,10 @@ def _resolve_parameter(param: str | None, env_key: Optional[str] = None) -> str 
     if param is not None:
         return param
     if env_key is not None:
-        return os.getenv(env_key, None)
+        for sub_key in env_key.split(","):
+            value = os.getenv(sub_key, None)
+            if value is not None:
+                return value
     return None
 
 
@@ -141,42 +142,81 @@ class AzureBlobStorageHandler(logging.Handler):
         client_id_env_key: Optional[str] = None,
         load_dot_env: bool | str = False,
         log_local: bool | str = False,
+        exclude_environment_credentials: bool = False,
     ):
         self.client = None
+        try:
+            self.client = self._setup_client(
+                conn_str,
+                container,
+                blob,
+                env_key,
+                account_name_env_key,
+                account_name,
+                client_id,
+                client_id_env_key,
+                load_dot_env,
+                log_local,
+                exclude_environment_credentials,
+            )
+        except Exception:
+            logger.error("Failed to setup AzureBlobStorageHandler.")
+            logger.error(traceback.format_exc())
+
+    def _setup_client(
+        self,
+        conn_str: Optional[str] = None,
+        container: Optional[str] = None,
+        blob: Optional[str] = None,
+        env_key: Optional[str] = None,
+        account_name_env_key: Optional[str] = None,
+        account_name: Optional[str] = None,
+        client_id: Optional[str] = None,
+        client_id_env_key: Optional[str] = None,
+        load_dot_env: bool | str = False,
+        log_local: bool | str = False,
+        exclude_environment_credentials: bool = False,
+    ) -> None | BlobClient:
         logging.Handler.__init__(self=self)
         # Optionally, load from .env file.
         if _parse_bool(load_dot_env):
             load_dotenv()
         # Check if running locally.
-        if _resolve_environment() == "local" and not _parse_bool(log_local):
-            logger.warning("Not logging to Azure Blob Storage as environment is local.")
-            return
+        local = _resolve_environment() == "local"
+        if local and not _parse_bool(log_local):
+            logger.debug("Not logging to Azure Blob Storage as environment is local.")
+            return None
         # Resolve parameters.
         account_name = _resolve_parameter(account_name, account_name_env_key)
-        client_id = _resolve_parameter(client_id, client_id_env_key)
+        # If we are local, we do NOT want to authenticate with a managed identity, so we skip the client_id.
+        client_id = None if local else _resolve_parameter(client_id, client_id_env_key)
         # Setup client.
-        try:
-            self.client: Optional[BlobClient] = _get_blob_client(
-                conn_str, container, blob, env_key, account_name, client_id
-            )
-        except ValueError:
-            return
+        client = _get_blob_client(
+            conn_str,
+            container,
+            blob,
+            env_key,
+            account_name,
+            client_id,
+            exclude_environment_credentials,
+        )
         # Create blob if not exists.
-        logger.info(f"Logging to storage account {self.client.account_name}.")
-        if not self.client.exists():
+        logger.info(f"Logging to storage account {client.account_name}.")
+        if not client.exists():
             content_settings = ContentSettings(
                 content_type="text/plain",
             )
             try:
-                self.client.create_append_blob(content_settings=content_settings)
+                client.create_append_blob(content_settings=content_settings)
             except ResourceNotFoundError as e:
                 logger.error(
-                    f"Error creating blob: {e} {self.client.blob_name} in container {self.client.container_name} in {self.client.account_name}."
+                    f"Error creating blob: {e} {client.blob_name} in container {client.container_name} in {client.account_name}."
                 )
                 return
         logger.info(
-            f"Logging to blob {self.client.blob_name} in container {self.client.container_name}."
+            f"Logging to blob {client.blob_name} in container {client.container_name}."
         )
+        return client
 
     def _prefix(self):
         pass

@@ -60,24 +60,18 @@ def _resolve_conn_str(
 
 
 def _get_blob_client(
+    credential: DefaultAzureCredential,
     conn_str: Optional[str] = None,
     container: Optional[str] = None,
     blob: Optional[str] = None,
     env_key: Optional[str] = None,
     account_name: Optional[str] = None,
-    client_id: Optional[str] = None,
-    exclude_environment_credentials: bool = False,
 ) -> BlobClient:
     # If container is not set, default to "logs" container.
     container = container if container is not None else "logs"
     # If blob is not set, use the default name.
-
     if account_name is not None:
         account_url = f"https://{account_name}.blob.core.windows.net"
-        credential = DefaultAzureCredential(
-            managed_identity_client_id=client_id,
-            exclude_environment_credential=exclude_environment_credentials,
-        )
         if blob is None:
             # List blobs in the container.
             blobs = (
@@ -99,7 +93,6 @@ def _get_blob_client(
             credential=credential,
         )
         return blob_client
-
     # Get the connection string from the environment.
     if blob is None:
         now = datetime.now(UTC)
@@ -178,27 +171,26 @@ class AzureBlobStorageHandler(logging.Handler):
         exclude_environment_credentials: bool = False,
     ) -> None | BlobClient:
         logging.Handler.__init__(self=self)
-        # Optionally, load from .env file.
-        if _parse_bool(load_dot_env):
-            load_dotenv()
         # Check if running locally.
         local = _resolve_environment() == "local"
         if local and not _parse_bool(log_local):
             logger.debug("Not logging to Azure Blob Storage as environment is local.")
             return None
+        # Setup credential.
+        credential = DefaultAzureCredential(
+            managed_identity_client_id=client_id,
+            exclude_environment_credential=_parse_bool(exclude_environment_credentials),
+        )
+        # Optionally, load from .env file.
+        if _parse_bool(load_dot_env):
+            load_dotenv(credential=credential)
         # Resolve parameters.
         account_name = _resolve_parameter(account_name, account_name_env_key)
         # If we are local, we do NOT want to authenticate with a managed identity, so we skip the client_id.
         client_id = None if local else _resolve_parameter(client_id, client_id_env_key)
         # Setup client.
         client = _get_blob_client(
-            conn_str,
-            container,
-            blob,
-            env_key,
-            account_name,
-            client_id,
-            exclude_environment_credentials,
+            credential, conn_str, container, blob, env_key, account_name
         )
         # Create blob if not exists.
         logger.info(f"Logging to storage account {client.account_name}.")

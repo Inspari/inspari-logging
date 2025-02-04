@@ -66,6 +66,7 @@ def _get_blob_client(
     env_key: Optional[str] = None,
     account_name: Optional[str] = None,
     client_id: Optional[str] = None,
+    exclude_environment_credentials: bool = False,
 ) -> BlobClient:
     # If container is not set, default to "logs" container.
     container = container if container is not None else "logs"
@@ -74,7 +75,8 @@ def _get_blob_client(
     if account_name is not None:
         account_url = f"https://{account_name}.blob.core.windows.net"
         credential = DefaultAzureCredential(
-            managed_identity_client_id=client_id, exclude_environment_credential=True
+            managed_identity_client_id=client_id,
+            exclude_environment_credential=exclude_environment_credentials,
         )
         if blob is None:
             # List blobs in the container.
@@ -140,6 +142,7 @@ class AzureBlobStorageHandler(logging.Handler):
         client_id_env_key: Optional[str] = None,
         load_dot_env: bool | str = False,
         log_local: bool | str = False,
+        exclude_environment_credentials: bool = False,
     ):
         self.client = None
         try:
@@ -154,6 +157,7 @@ class AzureBlobStorageHandler(logging.Handler):
                 client_id_env_key,
                 load_dot_env,
                 log_local,
+                exclude_environment_credentials,
             )
         except Exception:
             logger.error("Failed to setup AzureBlobStorageHandler.")
@@ -171,6 +175,7 @@ class AzureBlobStorageHandler(logging.Handler):
         client_id_env_key: Optional[str] = None,
         load_dot_env: bool | str = False,
         log_local: bool | str = False,
+        exclude_environment_credentials: bool = False,
     ) -> None | BlobClient:
         logging.Handler.__init__(self=self)
         # Optionally, load from .env file.
@@ -187,7 +192,13 @@ class AzureBlobStorageHandler(logging.Handler):
         client_id = None if local else _resolve_parameter(client_id, client_id_env_key)
         # Setup client.
         client = _get_blob_client(
-            conn_str, container, blob, env_key, account_name, client_id
+            conn_str,
+            container,
+            blob,
+            env_key,
+            account_name,
+            client_id,
+            exclude_environment_credentials,
         )
         # Create blob if not exists.
         logger.info(f"Logging to storage account {client.account_name}.")

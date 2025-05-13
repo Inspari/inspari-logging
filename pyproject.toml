@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "inspari_logging"
-version = "0.1.7"
+version = "0.1.8"
 description = "Inspari logging utilities"
-authors = ["emilhe <emil.h.eriksen@gmail.com>"]
+authors = ["emilhe <emil.h.eriksen@gmail.com>", "hansharhoff <git@hansharhoff.dk>"]
+license = "MIT"
 readme = "README.md"
 packages = [
     { include = "inspari" }

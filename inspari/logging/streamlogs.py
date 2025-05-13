@@ -63,44 +63,34 @@ def _get_blob_client(
     credential: DefaultAzureCredential,
     conn_str: Optional[str] = None,
     container: Optional[str] = None,
-    blob: Optional[str] = None,
+    blob_name: Optional[str] = None,
     env_key: Optional[str] = None,
     account_name: Optional[str] = None,
 ) -> BlobClient:
     # If container is not set, default to "logs" container.
     container = container if container is not None else "logs"
+
     # If blob is not set, use the default name.
+    if blob_name is None:
+        now = datetime.now(UTC)
+        blob_name = now.strftime("%Y-%m-%d.txt")
+
     if account_name is not None:
         account_url = f"https://{account_name}.blob.core.windows.net"
-        if blob is None:
-            # List blobs in the container.
-            blobs = (
-                BlobServiceClient(account_url=account_url, credential=credential)
-                .get_container_client(container)
-                .list_blobs()
-            )
-            list_blobs = sorted(blobs, key=lambda x: x.name)
-            # Get latest blob alphabetically.
-            if len(list_blobs) == 0:
-                blob = datetime.now(UTC).strftime("%Y-%m-%d.txt")
-            else:
-                blob = list_blobs[-1].name
 
         blob_client = BlobClient(
             account_url=account_url,
             container_name=container,
-            blob_name=blob,
+            blob_name=blob_name,
             credential=credential,
         )
         return blob_client
+
     # Get the connection string from the environment.
-    if blob is None:
-        now = datetime.now(UTC)
-        blob = now.strftime("%Y-%m-%d.txt")
     conn_str = _resolve_conn_str(conn_str, env_key)
     if conn_str is None:
         raise ValueError("Failed to resolve connection string or account name.")
-    return BlobClient.from_connection_string(conn_str, container, blob)
+    return BlobClient.from_connection_string(conn_str, container, blob_name)
 
 
 def _parse_bool(value: str | bool) -> bool:

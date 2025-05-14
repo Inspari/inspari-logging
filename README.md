@@ -56,7 +56,7 @@ you should be getting logs in (near) realtime from all services connected to the
 Create a new Python environment with all dependencies installed,
 
 ```bash
-poetry install
+poetry sync
 ```
 
 That's it! You can validate that the environment is setup correctly by running the tests,
